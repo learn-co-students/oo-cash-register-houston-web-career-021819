@@ -1,27 +1,46 @@
+require 'pry'
+
+class Person
+
+  attr_accessor :changed_name_count
+
+  def initialize
+    self.changed_name_count = 0
+  end
+
+  def change_name(value)
+    @first_name = value
+  end
+
+  def first_name
+    @first_name
+  end
+
+  def first_name=(value)
+    self.changed_name_count += 1
+    @first_name = value
+  end
+
+end
+
 class CashRegister
-  attr_accessor :total, :price, :discount, :items
+  attr_accessor :total, :price, :discount
   attr_reader :title, :quantity, :all
 
-  @@all = []
   def initialize(discount = false)
     @total = 0
     @discount = discount
-    @items = []
-    @@all << self
+    @all = []
   end
 
   def total
     @total
   end
 
-  def self.all
-    @@all
-  end
-
   def add_item(title, price, quantity=1)
     @total = @total + (price * quantity)
     quantity.times do
-    @items << title
+      @all << title
     end
   end
 
@@ -35,10 +54,10 @@ class CashRegister
   end
 
   def items
-    @items
+    self.all
   end
 
   def void_last_transaction
-    @total = @total - @@all[-1].total
+    @total = @total - @all[-1].total
   end
 end
